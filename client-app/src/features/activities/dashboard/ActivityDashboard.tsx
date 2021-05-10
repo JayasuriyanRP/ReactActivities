@@ -14,7 +14,8 @@ interface Props {
     openForm: (id:string) => void;
     closeForm: () => void;
     createOrEdit : (activity :Activity) => void;
-    deleteActivity :(id: String) => void;
+    deleteActivity :(id: string) => void;
+    submitting : boolean;
 }
 
 export default function ActivityDashboard({ activities, 
@@ -25,23 +26,27 @@ export default function ActivityDashboard({ activities,
                                             openForm,
                                             closeForm,
                                             createOrEdit,
-                                            deleteActivity
+                                            deleteActivity,
+                                            submitting
                                          }: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>
                 <ActivityList activities={activities}
                               selectActivity={selectActivity}
-                              deleteActivity ={deleteActivity}/>
+                              deleteActivity ={deleteActivity}
+                              submitting ={submitting}/>
             </Grid.Column>
             <Grid.Column width='6'>
                 {selectedActivity && !editMode &&
                         <ActivityDetails activity={selectedActivity}
                                          cancelSelectActivity = {cancelSelectActivity}
                                          openForm = {openForm}/>}
-                {editMode && <ActivityForm selectedActivity={selectedActivity}
-                                           closeForm = {closeForm}
-                                           createOrEdit = {createOrEdit}/>}
+                {editMode && 
+                    <ActivityForm selectedActivity={selectedActivity}
+                        closeForm = {closeForm}
+                        createOrEdit = {createOrEdit}
+                        submitting = {submitting}/>}
             </Grid.Column>
         </Grid>
     )
